@@ -18,6 +18,12 @@ CLIP_TIME="${PASSWORD_STORE_CLIP_TIME:-45}"
 export GIT_DIR="${PASSWORD_STORE_GIT:-$PREFIX}/.git"
 export GIT_WORK_TREE="${PASSWORD_STORE_GIT:-$PREFIX}"
 
+export LESS="${PASSWORD_STORE_LESS:-FRSXMK}"
+PAGER="${PAGER:-pager}"
+which "$PAGER" &>/dev/null || PAGER="less"
+which "$PAGER" &>/dev/null || PAGER="more"
+which "$PAGER" &>/dev/null || PAGER="cat"
+
 #
 # BEGIN helper functions
 #
@@ -313,12 +319,14 @@ cmd_show() {
 			clip "$pass" "$path"
 		fi
 	elif [[ -d $PREFIX/$path ]]; then
+		{
 		if [[ -z $path ]]; then
 			echo "Password Store"
 		else
 			echo "${path%\/}"
 		fi
 		tree -C -l --noreport "$PREFIX/$path" | tail -n +2 | sed 's/\.gpg$//'
+		} | "$PAGER"
 	elif [[ -z $path ]]; then
 		die "Error: password store is empty. Try \"pass init\"."
 	else
@@ -328,9 +336,11 @@ cmd_show() {
 
 cmd_find() {
 	[[ -z "$@" ]] && die "Usage: $PROGRAM $COMMAND pass-names..."
+	{
 	IFS="," eval 'echo "Search Terms: $*"'
 	local terms="*$(printf '%s*|*' "$@")"
 	tree -C -l --noreport -P "${terms%|*}" --prune --matchdirs --ignore-case "$PREFIX" | tail -n +2 | sed 's/\.gpg$//'
+	} | "$PAGER"
 }
 
 cmd_grep() {
@@ -346,7 +356,7 @@ cmd_grep() {
 		passfile="${passfile##*/}"
 		printf "\e[94m%s/\e[1m%s\e[0m:\n" "$passfile_dir" "$passfile"
 		echo "$grepresults"
-	done < <(find "$PREFIX" -iname '*.gpg' -print0)
+	done < <(find "$PREFIX" -iname '*.gpg' -print0) | "$PAGER"
 }
 
 cmd_insert() {
