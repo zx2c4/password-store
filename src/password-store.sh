@@ -18,11 +18,15 @@ CLIP_TIME="${PASSWORD_STORE_CLIP_TIME:-45}"
 export GIT_DIR="${PASSWORD_STORE_GIT:-$PREFIX}/.git"
 export GIT_WORK_TREE="${PASSWORD_STORE_GIT:-$PREFIX}"
 
-export LESS="${PASSWORD_STORE_LESS:-FRSXMK}"
-PAGER="${PAGER:-pager}"
-which "$PAGER" &>/dev/null || PAGER="less"
-which "$PAGER" &>/dev/null || PAGER="more"
-which "$PAGER" &>/dev/null || PAGER="cat"
+if [[ -t 1 ]]; then
+	export LESS="${PASSWORD_STORE_LESS:-FRSXMK}"
+	PAGER="${PAGER:-pager}"
+	which "$PAGER" &>/dev/null || PAGER="less"
+	which "$PAGER" &>/dev/null || PAGER="more"
+	which "$PAGER" &>/dev/null || PAGER="cat"
+else
+	PAGER="cat"
+fi
 
 #
 # BEGIN helper functions
