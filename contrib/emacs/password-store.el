@@ -59,6 +59,29 @@
   :group 'password-store
   :type 'string)
 
+(defcustom password-store-read-ignore-fields '()
+  "List of field names to ignore when prompting for field in the minibuffer.
+
+Include the symbol secret to exclude the password itself. All
+other fields are excluded by including a string of the name of
+the field. E.g. to exclude the password and the url field set it
+to `(secret \"url\")'.
+
+This is useful because such minibuffer prompts are generally used to
+access fields which could _not_ be accessed otherwise (those other
+than the password itself, the `username' field, etc.). Setting this
+variable can exclude those fields from the list, making it quicker to
+select what you need.
+
+This can be especially powerful if you use a completion mechanism
+which can be configured to select the last candidate
+automatically. Few entries ever have more than three fields, two
+of which are normally very common (the secret and the username or
+url). Excluding these would then select the third automatically."
+  :group 'password-store
+  :type '(restricted-sexp :match-alternatives
+			  (secret stringp)))
+
 (defvar password-store-executable
   (executable-find "pass")
   "Pass executable.")
@@ -207,8 +230,9 @@ ENTRY is the name of a password-store entry."
 (defun password-store-read-field (entry)
   "Read a field in the minibuffer, with completion for ENTRY."
   (let* ((inhibit-message t)
-         (valid-fields (mapcar #'car (password-store-parse-entry entry))))
-    (completing-read "Field: " valid-fields nil 'match)))
+         (valid-fields (mapcar #'car (password-store-parse-entry entry)))
+	 (relevant-fields (seq-difference valid-fields password-store-read-ignore-fields)))
+    (completing-read "Field: " relevant-fields nil 'match)))
 
 (defun password-store-list (&optional subdir)
   "List password entries under SUBDIR."
