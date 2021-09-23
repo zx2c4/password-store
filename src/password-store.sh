@@ -155,7 +155,7 @@ check_sneaky_paths() {
 #
 
 clip() {
-	if [[ -n $WAYLAND_DISPLAY ]]; then
+    if [[ -n $WAYLAND_DISPLAY ]] && command -v wl-copy > /dev/null; then
 		local copy_cmd=( wl-copy )
 		local paste_cmd=( wl-paste -n )
 		if [[ $X_SELECTION == primary ]]; then
@@ -163,7 +163,7 @@ clip() {
 			paste_cmd+=( --primary )
 		fi
 		local display_name="$WAYLAND_DISPLAY"
-	elif [[ -n $DISPLAY ]]; then
+	elif [[ -n $DISPLAY ]] && command -v xclip > /dev/null; then
 		local copy_cmd=( xclip -selection "$X_SELECTION" )
 		local paste_cmd=( xclip -o -selection "$X_SELECTION" )
 		local display_name="$DISPLAY"
