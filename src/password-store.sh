@@ -649,6 +649,20 @@ cmd_copy_move() {
 	fi
 }
 
+cmd_import_keys() {
+	local keyserver=( )
+	local opts
+	opts="$($GETOPT -o k: -l keyserver: -n "$PROGRAM" -- "$@")"
+	local err=$?
+	eval set -- "$opts"
+	while true; do case $1 in
+		-k|--keyserver) keyserver=( "--keyserver" "$2" ); shift 2 ;;
+		--) shift; break ;;
+	esac done
+
+	$GPG "${keyserver[@]}" --recv-keys $(find "$PREFIX" -name .gpg-id -exec grep -E --color=never -h "^(0x)?[0-9A-Fa-f]{8,}$" {} +)
+}
+
 cmd_git() {
 	set_git "$PREFIX/"
 	if [[ $1 == "init" ]]; then
@@ -715,6 +729,7 @@ case "$1" in
 	delete|rm|remove) shift;	cmd_delete "$@" ;;
 	rename|mv) shift;		cmd_copy_move "move" "$@" ;;
 	copy|cp) shift;			cmd_copy_move "copy" "$@" ;;
+	import-keys) shift;		cmd_import_keys "$@" ;;
 	git) shift;			cmd_git "$@" ;;
 	*)				cmd_extension_or_show "$@" ;;
 esac
