@@ -88,9 +88,10 @@ or outputs error message on failure."
                (setq output (concat output text)))
      :sentinel (lambda (process state)
                  (cond
-                  ((string= state "finished\n")
+                  ((and (eq (process-status process) 'exit)
+                        (zerop (process-exit-status process)))
                    (funcall callback output))
-                  ((string= state "open\n") (accept-process-output process))
+                  ((eq (process-status process) 'run) (accept-process-output process))
                   (t (error (concat "password-store: " state))))))))
 
 (defun password-store--run (&rest args)

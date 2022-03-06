@@ -1,3 +1,7 @@
+# 2.1.5
+
+* (bugfix) Fix an infloop on Windows enviroments.
+
 # 2.1.4
 
 * Drop dependency on f library.
