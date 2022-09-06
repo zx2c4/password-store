@@ -1,3 +1,7 @@
+# 2.2.0
+
+* (feature) Add command password-store-generate-no-symbols
+
 # 2.1.5
 
 * (bugfix) Fix an infloop on Windows enviroments.

@@ -19,6 +19,14 @@ Interactive:
     Password: ........
     Confirm password: ........
 
+    ;; Generate a random password.
+    M-x password-store-generate
+    Password entry: bar-account
+
+    ;; Generate a random password without symbols.
+    M-x password-store-generate-no-symbols
+    Password entry: qux-account
+
     M-x password-store-copy
     Password entry: foo-account
     Copied password for foo-account to the kill ring. Will clear in 45 seconds.

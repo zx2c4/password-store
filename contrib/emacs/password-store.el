@@ -342,12 +342,31 @@ Separate multiple IDs with spaces."
 
 Default PASSWORD-LENGTH is `password-store-password-length'."
   (interactive (list (password-store--completing-read)
-                     (when current-prefix-arg
-                       (abs (prefix-numeric-value current-prefix-arg)))))
-  (unless password-length (setq password-length password-store-password-length))
+                     (and current-prefix-arg
+                          (abs (prefix-numeric-value current-prefix-arg)))))
   ;; A message with the output of the command is not printed because
   ;; the output contains the password.
-  (password-store--run-generate entry password-length t)
+  (password-store--run-generate
+   entry
+   (or password-length password-store-password-length)
+   'force)
+  nil)
+
+;;;###autoload
+(defun password-store-generate-no-symbols (entry &optional password-length)
+  "Generate a new password without symbols for ENTRY with PASSWORD-LENGTH.
+
+Default PASSWORD-LENGTH is `password-store-password-length'."
+  (interactive (list (password-store--completing-read)
+                     (and current-prefix-arg
+                          (abs (prefix-numeric-value current-prefix-arg)))))
+  
+  ;; A message with the output of the command is not printed because
+  ;; the output contains the password.
+  (password-store--run-generate
+   entry
+   (or password-length password-store-password-length)
+   'force 'no-symbols)
   nil)
 
 ;;;###autoload
