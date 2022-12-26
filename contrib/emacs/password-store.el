@@ -4,9 +4,9 @@
 
 ;; Author: Svend Sorensen <svend@svends.net>
 ;; Maintainer: Tino Calancha <tino.calancha@gmail.com>
-;; Version: 2.1.4
+;; Version: 2.3.0
 ;; URL: https://www.passwordstore.org/
-;; Package-Requires: ((emacs "25") (s "1.9.0") (with-editor "2.5.11") (auth-source-pass "5.0.0"))
+;; Package-Requires: ((emacs "26") (s "1.9.0") (with-editor "2.5.11"))
 ;; Keywords: tools pass password password-store
 
 ;; This file is not part of GNU Emacs.

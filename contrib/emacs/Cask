@@ -7,5 +7,4 @@
  (depends-on "with-editor")
  (depends-on "ecukes")
  (depends-on "ert-runner")
- (depends-on "el-mock")
- (depends-on "auth-source-pass"))
+ (depends-on "el-mock"))
