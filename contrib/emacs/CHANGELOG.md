@@ -1,3 +1,7 @@
+# 2.3.1
+
+* (bug) Drop dependency on s library.
+
 # 2.3.0
 
 * (bug) Drop auth-source-pass dependency.
