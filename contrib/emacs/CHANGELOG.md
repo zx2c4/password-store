@@ -1,3 +1,8 @@
+# 2.3.2
+
+* (bugfix) Ensure the system clipboard is cleared after
+  the timeout expired.
+
 # 2.3.1
 
 * (bug) Drop dependency on s library.
