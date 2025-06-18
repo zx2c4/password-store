@@ -1,3 +1,8 @@
+# 2.3.3
+
+* (cleanup) Avoid double decryption and reduce the scope of
+  `inhibit-message` in internal functions.
+
 # 2.3.2
 
 * (bugfix) Ensure the system clipboard is cleared after

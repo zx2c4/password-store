@@ -4,7 +4,7 @@
 
 ;; Author: Svend Sorensen <svend@svends.net>
 ;; Maintainer: Tino Calancha <tino.calancha@gmail.com>
-;; Version: 2.3.2
+;; Version: 2.3.3
 ;; URL: https://www.passwordstore.org/
 ;; Package-Requires: ((emacs "26.1") (with-editor "2.5.11"))
 ;; SPDX-License-Identifier: GPL-3.0-or-later
@@ -220,8 +220,9 @@ ENTRY is the name of a password-store entry."
 
 (defun password-store-read-field (entry)
   "Read a field in the minibuffer, with completion for ENTRY."
-  (let* ((inhibit-message t)
-         (valid-fields (mapcar #'car (password-store-parse-entry entry))))
+  (let ((valid-fields
+         (let ((inhibit-message t))
+           (mapcar #'car (password-store-parse-entry entry)))))
     (completing-read "Field: " valid-fields nil 'match)))
 
 (defun password-store-list (&optional subdir)
@@ -245,12 +246,12 @@ ENTRY is the name of a password-store entry."
 
 Returns the first line of the password data.  When CALLBACK is
 non-`NIL', call CALLBACK with the first line instead."
-  (let* ((inhibit-message t)
-         (secret (auth-source-pass-get 'secret entry)))
-    (if (not callback) secret
-      (password-store--run-show
-       entry
-       (lambda (_) (funcall callback secret))))))
+  (let ((secret
+         (let ((inhibit-message t))
+           (auth-source-pass-get 'secret entry))))
+    (if callback
+        (funcall callback secret)
+      secret)))
 
 ;;;###autoload
 (defun password-store-get-field (entry field &optional callback)
@@ -259,12 +260,12 @@ FIELD is a string, for instance \"url\".  When CALLBACK is
 non-`NIL', call it with the line associated to FIELD instead.  If
 FIELD equals to symbol secret, then this function reduces to
 `password-store-get'."
-  (let* ((inhibit-message t)
-         (secret (auth-source-pass-get field entry)))
-    (if (not callback) secret
-      (password-store--run-show
-       entry
-       (lambda (_) (and secret (funcall callback secret)))))))
+  (let ((secret
+         (let ((inhibit-message t))
+           (auth-source-pass-get field entry))))
+    (if callback
+        (funcall callback secret)
+      secret)))
 
 
 ;;;###autoload
