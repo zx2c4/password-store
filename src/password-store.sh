@@ -183,7 +183,12 @@ clip() {
 }
 
 qrcode() {
-	if [[ -n $DISPLAY || -n $WAYLAND_DISPLAY ]]; then
+	if [[ -n $WAYLAND_DISPLAY ]]; then
+		if type imv >/dev/null 2>&1; then
+			echo -n "$1" | qrencode --size 10 -o - | imv -w "pass: $2" -W 200 -H 200 -
+			return
+		fi
+	elif [[ -n $DISPLAY ]]; then
 		if type feh >/dev/null 2>&1; then
 			echo -n "$1" | qrencode --size 10 -o - | feh -x --title "pass: $2" -g +200+200 -
 			return
