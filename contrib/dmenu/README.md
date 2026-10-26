@@ -4,17 +4,19 @@ clipboard without having to open up a terminal window if you don't already have
 one open. If `--type` is specified, the password is typed using [xdotool][]
 instead of copied to the clipboard.
 
-On wayland [dmenu-wl][] is used to replace dmenu and [ydotool][] to replace xdotool.
-Note that the latter requires access to the [uinput][] device, so you'll probably
-need to add an extra udev rule or similar to give certain non-root users permission.
+On wayland [wmenu][] is used to replace dmenu and [kwin-type][] for KDE or
+[ydotool][] for others to replace xdotool. Note that the latter requires access
+to the [uinput][] device, so you'll probably need to add an extra udev rule or
+similar to give certain non-root users permission.
 
 # Usage
 
     passmenu [--type] [dmenu arguments...]
 
-[dmenu]: http://tools.suckless.org/dmenu/
-[xdotool]: http://www.semicomplete.com/projects/xdotool/
 [pass]: http://www.zx2c4.com/projects/password-store/
-[dmenu-wl]: https://github.com/nyyManni/dmenu-wayland
+[dmenu]: http://tools.suckless.org/dmenu/
+[wmenu]: https://codeberg.org/adnano/wmenu
+[xdotool]: http://www.semicomplete.com/projects/xdotool/
+[kwin-type]: https://git.zx2c4.com/kwin-type/about/
 [ydotool]: https://github.com/ReimuNotMoe/ydotool
-[uinput]: https://www.kernel.org/doc/html/v4.12/input/uinput.html
+[uinput]: https://www.kernel.org/doc/html/latest/input/uinput.html

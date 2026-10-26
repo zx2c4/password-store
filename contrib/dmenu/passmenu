@@ -9,8 +9,9 @@ if [[ $1 == "--type" ]]; then
 fi
 
 if [[ -n $WAYLAND_DISPLAY ]]; then
-	dmenu=dmenu-wl
+	dmenu=wmenu
 	xdotool="ydotool type --file -"
+	[[ $XDG_CURRENT_DESKTOP == KDE ]] && xdotool="kwin-type"
 elif [[ -n $DISPLAY ]]; then
 	dmenu=dmenu
 	xdotool="xdotool type --clearmodifiers --file -"
