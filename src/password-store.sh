@@ -163,7 +163,7 @@ clip() {
 		local copy_cmd=( xclip -selection "$X_SELECTION" )
 		local paste_cmd=( xclip -o -selection "$X_SELECTION" )
 		local display_name="$DISPLAY"
-		local sleep_argv0="password store sleep on display $DISPLAY"
+		local sleep_argv0="password store sleep on display $DISPLAY for X selection $X_SELECTION"
 		# This base64 business is because bash cannot store binary data in a shell
 		# variable. Specifically, it cannot store nulls nor (non-trivally) store
 		# trailing new lines.
