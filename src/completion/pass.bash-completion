@@ -83,6 +83,11 @@ _pass_complete_keys () {
 _pass()
 {
 	COMPREPLY=()
+        local COMPLETION_DIR=/usr/share/bash-completion/completions
+        for f in ${COMPLETION_DIR}/pass-*
+        do
+            . ${f}
+        done
 	local cur="${COMP_WORDS[COMP_CWORD]}"
 	local commands="init ls find grep show insert generate edit rm mv cp git help version ${PASSWORD_STORE_EXTENSION_COMMANDS[*]}"
 	if [[ $COMP_CWORD -gt 1 ]]; then
